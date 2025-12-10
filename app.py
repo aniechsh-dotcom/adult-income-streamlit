@@ -73,15 +73,25 @@ def train_gb_best():
 gb_best, X_num, cat_cols = train_gb_best()
 
 
-st.set_page_config(page_title="Прогноз дохода >50K", page_icon="💰", layout="centered")
+st.set_page_config(page_title="Удовлетворённость доходом", page_icon="💰", layout="centered")
 
-st.title("💰 Прогноз: превысит ли доход 50K?")
-st.write(
-    "Модель: градиентный бустинг (80 деревьев), обученный на датасете Adult. "
-    "Введите свои характеристики — и модель оценит вероятность дохода выше $50K."
+st.title("💰 Удовлетворённость доходом")
+
+st.markdown(
+    """
+    Исследуем социально-демографические характеристики и **предсказываем, превысит ли доход пользователя порог $50K**.  
+    Модель обучена на данных взрослых людей из разных стран: занятость, образование, семейное положение и другие факторы, влияющие на уровень дохода.
+    """
+)
+
+
+st.image(
+    "https://images.pexels.com/photos/4968633/pexels-photo-4968633.jpeg",
+    use_container_width=True,
 )
 
 st.header("Введите данные")
+
 
 input_data = {}
 
@@ -98,22 +108,26 @@ if "fnlwgt" in X_num:
 
 if "education-num" in X_num:
     input_data["education-num"] = st.number_input(
-        "Education-num", min_value=0, max_value=20, value=10
+        "Количество лет образования (Education-num)", min_value=0, max_value=20, value=10
     )
 
 if "capital-gain" in X_num:
     input_data["capital-gain"] = st.number_input(
-        "Capital gain", min_value=0, max_value=100_000, value=0
+        "Прирост капитала (Capital gain)", min_value=0, max_value=100_000, value=0
     )
 
 if "capital-loss" in X_num:
     input_data["capital-loss"] = st.number_input(
-        "Capital loss", min_value=0, max_value=5_000, value=0
+        "Потеря капитала (Capital loss)", min_value=0, max_value=5_000, value=0
     )
 
 if "hours-per-week" in X_num:
-    input_data["hours-per-week"] = st.number_input(
-        "Часы работы в неделю (hours-per-week)", min_value=1, max_value=99, value=40
+    input_data["hours-per-week"] = st.slider(
+        "Часы работы в неделю (hours-per-week)",
+        min_value=1,
+        max_value=80,
+        value=40,
+        step=1,
     )
 
 st.subheader("Категориальные признаки")
